@@ -6,51 +6,55 @@ using System.Text;
 namespace Marvin.StreamExtensions
 {
     /// <summary>
-    /// Extensions for working with streams
+    /// Extension methods for working with streams
     /// </summary>
     public static partial class StreamExtensions
     {
         /// <summary>
-        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// Read from the stream and deserialize into an object of type T (assuming Json content).
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
         /// <param name="stream">The stream</param>
         /// <returns>An object of type T</returns>
-        public static T ReadAndDeserializeFromJson<T>(this Stream stream)
+        public static T ReadAndDeserializeFromJson<T>(
+            this Stream stream)
         {
             return ReadAndDeserializeFromJson<T>(stream, new UTF8Encoding(), true, 
                 Defaults.DefaultBufferSizeOnRead, false);
         }
 
         /// <summary>
-        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// Read from the stream and deserialize into an object of type T (assuming Json content).
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
         /// <param name="stream">The stream</param>
         /// <param name="encoding">The encoding to use</param>
         /// <returns>An object of type T</returns>
-        public static T ReadAndDeserializeFromJson<T>(this Stream stream, Encoding encoding)
+        public static T ReadAndDeserializeFromJson<T>(
+            this Stream stream, 
+            Encoding encoding)
         {
             return ReadAndDeserializeFromJson<T>(stream, encoding, true,
                 Defaults.DefaultBufferSizeOnRead, false);
         }
 
         /// <summary>
-        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// Read from the stream and deserialize into an object of type T (assuming Json content).
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
         /// <param name="stream">The stream</param>
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
         /// <returns>An object of type T</returns>
-        public static T ReadAndDeserializeFromJson<T>(this Stream stream,
-           bool detectEncodingFromByteOrderMarks)
+        public static T ReadAndDeserializeFromJson<T>(
+            this Stream stream,
+            bool detectEncodingFromByteOrderMarks)
         {
             return ReadAndDeserializeFromJson<T>(stream, new UTF8Encoding(),
                 detectEncodingFromByteOrderMarks, Defaults.DefaultBufferSizeOnRead, false);
         }
 
         /// <summary>
-        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// Read from the stream and deserialize into an object of type T (assuming Json content).
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
         /// <param name="stream">The stream</param>
@@ -58,7 +62,8 @@ namespace Marvin.StreamExtensions
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
         /// <param name="bufferSize">The size of the buffer</param>
         /// <returns>An object of type T</returns>
-        public static T ReadAndDeserializeFromJson<T>(this Stream stream,
+        public static T ReadAndDeserializeFromJson<T>(
+            this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
             int bufferSize)
@@ -68,7 +73,7 @@ namespace Marvin.StreamExtensions
         }
 
         /// <summary>
-        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// Read from the stream and deserialize into an object of type T (assuming Json content).
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
         /// <param name="stream">The stream</param>
@@ -77,7 +82,8 @@ namespace Marvin.StreamExtensions
         /// <param name="bufferSize">The size of the buffer</param>
         /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamReader object is disposed</param>
         /// <returns>An object of type T</returns>
-        public static T ReadAndDeserializeFromJson<T>(this Stream stream,
+        public static T ReadAndDeserializeFromJson<T>(
+            this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
             int bufferSize,
@@ -108,37 +114,40 @@ namespace Marvin.StreamExtensions
             }
         }
 
-
         /// <summary>
-        /// Read from a stream and deserialize (assuming Json content).
+        /// Read from the stream and deserialize (assuming Json content).
         /// </summary>
         /// <param name="stream">The stream</param>
         /// <returns>The deserialized object</returns>
-        public static object ReadAndDeserializeFromJson(this Stream stream)
+        public static object ReadAndDeserializeFromJson(
+            this Stream stream)
         {
             return ReadAndDeserializeFromJson(stream, new UTF8Encoding(), true,
                 Defaults.DefaultBufferSizeOnRead, false);
         }
 
         /// <summary>
-        /// Read from a stream and deserialize (assuming Json content).
+        /// Read from the stream and deserialize (assuming Json content).
         /// </summary>
         /// <param name="stream">The stream</param>
         /// <param name="encoding">The encoding to use</param>
         /// <returns>The deserialized object</returns>
-        public static object ReadAndDeserializeFromJson(this Stream stream, Encoding encoding)
+        public static object ReadAndDeserializeFromJson(
+            this Stream stream, 
+            Encoding encoding)
         {
             return ReadAndDeserializeFromJson(stream, encoding, true,
                 Defaults.DefaultBufferSizeOnRead, false);
         }
 
         /// <summary>
-        /// Read from a stream and deserialize (assuming Json content).
+        /// Read from the stream and deserialize (assuming Json content).
         /// </summary>
         /// <param name="stream">The stream</param>
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
         /// <returns>The deserialized object</returns>
-        public static object ReadAndDeserializeFromJson(this Stream stream,
+        public static object ReadAndDeserializeFromJson(
+            this Stream stream,
            bool detectEncodingFromByteOrderMarks)
         {
             return ReadAndDeserializeFromJson(stream, new UTF8Encoding(),
@@ -147,14 +156,15 @@ namespace Marvin.StreamExtensions
 
 
         /// <summary>
-        /// Read from a stream and deserialize (assuming Json content).
+        /// Read from the stream and deserialize (assuming Json content).
         /// </summary>
         /// <param name="stream">The stream</param>
         /// <param name="encoding">The encoding to use</param>
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
         /// <param name="bufferSize">The size of the buffer</param>
         /// <returns>The deserialized object</returns>
-        public static object ReadAndDeserializeFromJson(this Stream stream,
+        public static object ReadAndDeserializeFromJson(
+            this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
             int bufferSize)
@@ -164,7 +174,7 @@ namespace Marvin.StreamExtensions
         }
 
         /// <summary>
-        /// Read from a stream and deserialize (assuming Json content).
+        /// Read from the stream and deserialize (assuming Json content).
         /// </summary>
         /// <param name="stream">The stream</param>
         /// <param name="encoding">The encoding to use</param>
@@ -172,7 +182,8 @@ namespace Marvin.StreamExtensions
         /// <param name="bufferSize">The size of the buffer</param>
         /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamReader object is disposed</param>
         /// <returns>The deserialized object</returns>
-        public static object ReadAndDeserializeFromJson(this Stream stream,
+        public static object ReadAndDeserializeFromJson(
+            this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
             int bufferSize,
@@ -203,47 +214,120 @@ namespace Marvin.StreamExtensions
             }
         }
 
-
-        public static void SerializeAndWriteToJson<T>(this Stream stream, T objectToWrite)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream, 
+            T objectToWrite)
         {
-            SerializeAndWriteToJson<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
+            SerializeToJsonAndWrite<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
-        public static void SerializeAndWriteToJson<T>(this Stream stream, T objectToWrite,
-          Encoding encoding)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding)
         {
-            SerializeAndWriteToJson<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
+            SerializeToJsonAndWrite<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
-        public static void SerializeAndWriteToJson<T>(this Stream stream, T objectToWrite,
-         Encoding encoding, int bufferSize)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding, 
+            int bufferSize)
         {
-            SerializeAndWriteToJson<T>(stream, objectToWrite, encoding, bufferSize, false, false);
+            SerializeToJsonAndWrite<T>(stream, objectToWrite, encoding, bufferSize, false, false);
         }
 
-        public static void SerializeAndWriteToJson<T>(this Stream stream, T objectToWrite,
-        Encoding encoding, int bufferSize, bool leaveOpen)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding, 
+            int bufferSize, 
+            bool leaveOpen)
         {
-            SerializeAndWriteToJson<T>(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
+            SerializeToJsonAndWrite<T>(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
         }
 
-        public static void SerializeAndWriteToJson<T>(this Stream stream, T objectToWrite, bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream, 
+            T objectToWrite, 
+            bool resetStream)
         {
-            SerializeAndWriteToJson<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            SerializeToJsonAndWrite<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
 
-        public static void SerializeAndWriteToJson<T>(this Stream stream, T objectToWrite,
-      Encoding encoding, bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding,
+            bool resetStream)
         {
-            SerializeAndWriteToJson<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            SerializeToJsonAndWrite<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
 
 
-        public static void SerializeAndWriteToJson<T>(this Stream stream, T objectToWrite,
-          Encoding encoding,
-          int bufferSize,
-          bool leaveOpen,
-          bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding,
+            int bufferSize,
+            bool leaveOpen,
+            bool resetStream)
         {
             if (stream == null)
             {
@@ -277,45 +361,114 @@ namespace Marvin.StreamExtensions
             }
         }
 
-        public static void SerializeAndWriteToJson(this Stream stream, object objectToWrite)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream, 
+            object objectToWrite)
         {
-            SerializeAndWriteToJson(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
-        public static void SerializeAndWriteToJson(this Stream stream, object objectToWrite,
-          Encoding encoding)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream, 
+            object objectToWrite,
+            Encoding encoding)
         {
-            SerializeAndWriteToJson(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
-        public static void SerializeAndWriteToJson(this Stream stream, object objectToWrite,
-         Encoding encoding, int bufferSize)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream, 
+            object objectToWrite,
+            Encoding encoding, 
+            int bufferSize)
         {
-            SerializeAndWriteToJson(stream, objectToWrite, encoding, bufferSize, false, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, false, false);
         }
 
-        public static void SerializeAndWriteToJson(this Stream stream, object objectToWrite,
-        Encoding encoding, int bufferSize, bool leaveOpen)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream, 
+            object objectToWrite,
+            Encoding encoding, 
+            int bufferSize, 
+            bool leaveOpen)
         {
-            SerializeAndWriteToJson(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
         }
 
-        public static void SerializeAndWriteToJson(this Stream stream, object objectToWrite, bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream, 
+            object objectToWrite, 
+            bool resetStream)
         {
-            SerializeAndWriteToJson(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
 
-        public static void SerializeAndWriteToJson(this Stream stream, object objectToWrite,
-        Encoding encoding, bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream, 
+            object objectToWrite,
+            Encoding encoding, 
+            bool resetStream)
         {
-            SerializeAndWriteToJson(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
-        
-        public static void SerializeAndWriteToJson(this Stream stream, object objectToWrite,
-       Encoding encoding,
-       int bufferSize,
-       bool leaveOpen,
-       bool resetStream)
+
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream, 
+            object objectToWrite,
+            Encoding encoding,
+            int bufferSize,
+            bool leaveOpen,
+            bool resetStream)
         {
             if (stream == null)
             {
