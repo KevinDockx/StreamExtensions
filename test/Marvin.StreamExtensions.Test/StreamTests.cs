@@ -2,7 +2,6 @@ using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -42,10 +41,7 @@ namespace Marvin.StreamExtensions.Test
             // instantiate client
             var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object);
 
-            // generate a movie poster of 500KB
-           
             var memoryContentStream = new MemoryStream();
-
             memoryContentStream.SerializeAndWriteToJson(person, new UTF8Encoding(), 1024, true, true); 
              
             using (var request = new HttpRequestMessage(
@@ -97,10 +93,7 @@ namespace Marvin.StreamExtensions.Test
             // instantiate client
             var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object);
 
-            // generate a movie poster of 500KB
-
             var memoryContentStream = new MemoryStream();
-
             await memoryContentStream.SerializeAndWriteToJsonAsync(person, new UTF8Encoding(), 1024, false, true);
 
             using (var request = new HttpRequestMessage(
@@ -122,11 +115,9 @@ namespace Marvin.StreamExtensions.Test
                     }
                 }
             }
-
             Assert.Equal(person, personAfterResponse);
         }
-
-
+        
         [Fact]
         public async Task SerializeTypedInputToStream_MustMatchInput()
         {
@@ -151,12 +142,9 @@ namespace Marvin.StreamExtensions.Test
                });
 
             // instantiate client
-            var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object);
-
-            // generate a movie poster of 500KB
+            var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object); 
 
             var memoryContentStream = new MemoryStream();
-
             memoryContentStream.SerializeAndWriteToJson<Person>(person, new UTF8Encoding(), 1024, true, true);
 
             using (var request = new HttpRequestMessage(
@@ -179,7 +167,6 @@ namespace Marvin.StreamExtensions.Test
                     }
                 }
             }
-
             Assert.Equal(person, personAfterResponse);
         }
 
@@ -209,10 +196,7 @@ namespace Marvin.StreamExtensions.Test
             // instantiate client
             var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object);
 
-            // generate a movie poster of 500KB
-
             var memoryContentStream = new MemoryStream();
-
             await memoryContentStream.SerializeAndWriteToJsonAsync<Person>(person, new UTF8Encoding(), 1024, true, true);
 
             using (var request = new HttpRequestMessage(
@@ -235,7 +219,6 @@ namespace Marvin.StreamExtensions.Test
                     }
                 }
             }
-
             Assert.Equal(person, personAfterResponse);
         }
 
@@ -281,8 +264,7 @@ namespace Marvin.StreamExtensions.Test
 
             Assert.Equal(person, personAfterResponse);
         }
-
-
+        
         [Fact]
         public async Task DeserializeResponseFromStream_MustMatchInput()
         {
@@ -323,7 +305,6 @@ namespace Marvin.StreamExtensions.Test
                 // cast - just testing the non-typed ReadAndDeserializeFromJson method
                 personAfterResponse = ((JObject)output).ToObject<Person>();
             }
-
             Assert.Equal(person, personAfterResponse);
         }
     }
