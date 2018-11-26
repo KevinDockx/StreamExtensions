@@ -1,6 +1,7 @@
 # Stream Extensions
 A set of helper extension methods (on Stream) for working with streams.  Particularly useful for interaction with an API through HttpClient.  Includes 24 extension methods in total (sync & async where it makes sense, generic & non-generic) like `SerializeToJsonAndWriteAsync<T>`, `SerializeToJsonAndWrite` and `ReadAndDeserializeFromJson<T>`.
 
+[![NuGet version](https://badge.fury.io/nu/Marvin.StreamExtensions.svg)](https://badge.fury.io/nu/Marvin.StreamExtensions)
 
 # Installation (NuGet)
 ```
