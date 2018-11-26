@@ -1,5 +1,5 @@
 # Stream Extensions
-A set of helper extension methods for working with streams.  Particularly useful for interaction with an API through HttpClient.  Includes 24 extension methods in total (sync & async where it makes sense, generic & non-generic) like `SerializeAndWriteToJsonAsync<T>`, `SerializeAndWriteToJson` and `ReadAndDeserializeFromJson<T>`.
+A set of helper extension methods for working with streams.  Particularly useful for interaction with an API through HttpClient.  Includes 24 extension methods in total (sync & async where it makes sense, generic & non-generic) like `SerializeToJsonAndWriteAsync<T>`, `SerializeToJsonAndWrite` and `ReadAndDeserializeFromJson<T>`.
 
 
 # Installation (NuGet)
@@ -31,7 +31,7 @@ To use a stream for sending data:
 ```
 var person = new Person() { Name = "Lord Flashheart" };
 var memoryContentStream = new MemoryStream();
-memoryContentStream.SerializeAndWriteToJson<Person>(person);
+memoryContentStream.SerializeToJsonAndWrite<Person>(person);
 
 using (var request = new HttpRequestMessage(
     HttpMethod.Post,
