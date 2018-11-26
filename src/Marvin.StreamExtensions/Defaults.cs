@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Marvin.StreamExtensions
+﻿namespace Marvin.StreamExtensions
 {
     internal static class Defaults
     {

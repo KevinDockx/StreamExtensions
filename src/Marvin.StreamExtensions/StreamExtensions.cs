@@ -10,18 +10,38 @@ namespace Marvin.StreamExtensions
     /// </summary>
     public static partial class StreamExtensions
     {
+        /// <summary>
+        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(this Stream stream)
         {
             return ReadAndDeserializeFromJson<T>(stream, new UTF8Encoding(), true, 
                 Defaults.DefaultBufferSizeOnRead, false);
         }
 
+        /// <summary>
+        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(this Stream stream, Encoding encoding)
         {
             return ReadAndDeserializeFromJson<T>(stream, encoding, true,
                 Defaults.DefaultBufferSizeOnRead, false);
         }
 
+        /// <summary>
+        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
+        /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(this Stream stream,
            bool detectEncodingFromByteOrderMarks)
         {
@@ -29,6 +49,15 @@ namespace Marvin.StreamExtensions
                 detectEncodingFromByteOrderMarks, Defaults.DefaultBufferSizeOnRead, false);
         }
 
+        /// <summary>
+        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
@@ -38,6 +67,16 @@ namespace Marvin.StreamExtensions
                 detectEncodingFromByteOrderMarks, bufferSize, false);
         }
 
+        /// <summary>
+        /// Read from a stream and deserialize into an object of type T (assuming Json content).
+        /// </summary>
+        /// <typeparam name="T">The object type</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamReader object is disposed</param>
+        /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
@@ -70,18 +109,35 @@ namespace Marvin.StreamExtensions
         }
 
 
+        /// <summary>
+        /// Read from a stream and deserialize (assuming Json content).
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(this Stream stream)
         {
             return ReadAndDeserializeFromJson(stream, new UTF8Encoding(), true,
                 Defaults.DefaultBufferSizeOnRead, false);
         }
 
+        /// <summary>
+        /// Read from a stream and deserialize (assuming Json content).
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(this Stream stream, Encoding encoding)
         {
             return ReadAndDeserializeFromJson(stream, encoding, true,
                 Defaults.DefaultBufferSizeOnRead, false);
         }
 
+        /// <summary>
+        /// Read from a stream and deserialize (assuming Json content).
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
+        /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(this Stream stream,
            bool detectEncodingFromByteOrderMarks)
         {
@@ -89,6 +145,15 @@ namespace Marvin.StreamExtensions
                 detectEncodingFromByteOrderMarks, Defaults.DefaultBufferSizeOnRead, false);
         }
 
+
+        /// <summary>
+        /// Read from a stream and deserialize (assuming Json content).
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
@@ -98,6 +163,15 @@ namespace Marvin.StreamExtensions
                 detectEncodingFromByteOrderMarks, bufferSize, false);
         }
 
+        /// <summary>
+        /// Read from a stream and deserialize (assuming Json content).
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamReader object is disposed</param>
+        /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
