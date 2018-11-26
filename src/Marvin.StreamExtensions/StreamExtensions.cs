@@ -309,8 +309,7 @@ namespace Marvin.StreamExtensions
         {
             SerializeToJsonAndWrite<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
-
-
+        
         /// <summary>
         /// Serialize (to Json) and write to the stream
         /// </summary>

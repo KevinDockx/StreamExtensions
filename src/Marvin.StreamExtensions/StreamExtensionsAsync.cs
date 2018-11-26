@@ -13,45 +13,119 @@ namespace Marvin.StreamExtensions
     {
         // note: there aren't async versions of ReadAndDeserialize as Json.NET currently doesn't support that.
 
-        public static async Task SerializeAndWriteToJsonAsync<T>(this Stream stream, T objectToWrite)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        public static async Task SerializeToJsonAndWriteAsync<T>(
+            this Stream stream, 
+            T objectToWrite)
         {
-            await SerializeAndWriteToJsonAsync<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
+            await SerializeToJsonAndWriteAsync<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync<T>(this Stream stream, T objectToWrite,
-          Encoding encoding)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        public static async Task SerializeToJsonAndWriteAsync<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding)
         {
-            await SerializeAndWriteToJsonAsync<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
+            await SerializeToJsonAndWriteAsync<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync<T>(this Stream stream, T objectToWrite,
-         Encoding encoding, int bufferSize)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        public static async Task SerializeToJsonAndWriteAsync<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding, 
+            int bufferSize)
         {
-            await SerializeAndWriteToJsonAsync<T>(stream, objectToWrite, encoding, bufferSize, false, false);
+            await SerializeToJsonAndWriteAsync<T>(stream, objectToWrite, encoding, bufferSize, false, false);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync<T>(this Stream stream, T objectToWrite,
-        Encoding encoding, int bufferSize, bool leaveOpen)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        public static async Task SerializeToJsonAndWriteAsync<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding, 
+            int bufferSize, 
+            bool leaveOpen)
         {
-            await SerializeAndWriteToJsonAsync<T>(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
+            await SerializeToJsonAndWriteAsync<T>(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync<T>(this Stream stream, T objectToWrite, bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static async Task SerializeToJsonAndWriteAsync<T>(
+            this Stream stream,
+            T objectToWrite, 
+            bool resetStream)
         {
-            await SerializeAndWriteToJsonAsync<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            await SerializeToJsonAndWriteAsync<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync<T>(this Stream stream, T objectToWrite,
-      Encoding encoding, bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static async Task SerializeToJsonAndWriteAsync<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding, 
+            bool resetStream)
         {
-            await SerializeAndWriteToJsonAsync<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            await SerializeToJsonAndWriteAsync<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
-        
-        public static async Task SerializeAndWriteToJsonAsync<T>(this Stream stream, T objectToWrite,
-          Encoding encoding,
-          int bufferSize,
-          bool leaveOpen,
-          bool resetStream)
+
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static async Task SerializeToJsonAndWriteAsync<T>(
+            this Stream stream, 
+            T objectToWrite,
+            Encoding encoding,
+            int bufferSize,
+            bool leaveOpen,
+            bool resetStream)
         {
             if (stream == null)
             {
@@ -85,45 +159,114 @@ namespace Marvin.StreamExtensions
             }
         }
 
-        public static async Task SerializeAndWriteToJsonAsync(this Stream stream, object objectToWrite)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        public static async Task SerializeToJsonAndWriteAsync(
+            this Stream stream, 
+            object objectToWrite)
         {
-            await SerializeAndWriteToJsonAsync(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
+            await SerializeToJsonAndWriteAsync(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync(this Stream stream, object objectToWrite,
-          Encoding encoding)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        public static async Task SerializeToJsonAndWriteAsync(
+            this Stream stream,
+            object objectToWrite, 
+            Encoding encoding)
         {
-            await SerializeAndWriteToJsonAsync(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
+            await SerializeToJsonAndWriteAsync(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync(this Stream stream, object objectToWrite,
-         Encoding encoding, int bufferSize)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        public static async Task SerializeToJsonAndWriteAsync(
+            this Stream stream, 
+            object objectToWrite,
+            Encoding encoding, 
+            int bufferSize)
         {
-            await SerializeAndWriteToJsonAsync(stream, objectToWrite, encoding, bufferSize, false, false);
+            await SerializeToJsonAndWriteAsync(stream, objectToWrite, encoding, bufferSize, false, false);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync(this Stream stream, object objectToWrite,
-        Encoding encoding, int bufferSize, bool leaveOpen)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        public static async Task SerializeToJsonAndWriteAsync(
+            this Stream stream, 
+            object objectToWrite,
+            Encoding encoding, 
+            int bufferSize,
+            bool leaveOpen)
         {
-            await SerializeAndWriteToJsonAsync(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
+            await SerializeToJsonAndWriteAsync(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync(this Stream stream, object objectToWrite, bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static async Task SerializeToJsonAndWriteAsync(
+            this Stream stream, 
+            object objectToWrite,
+            bool resetStream)
         {
-            await SerializeAndWriteToJsonAsync(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            await SerializeToJsonAndWriteAsync(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync(this Stream stream, object objectToWrite,
-        Encoding encoding, bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static async Task SerializeToJsonAndWriteAsync(
+            this Stream stream, 
+            object objectToWrite,
+            Encoding encoding,
+            bool resetStream)
         {
-            await SerializeAndWriteToJsonAsync(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            await SerializeToJsonAndWriteAsync(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
 
-        public static async Task SerializeAndWriteToJsonAsync(this Stream stream, object objectToWrite,
-       Encoding encoding,
-       int bufferSize,
-       bool leaveOpen,
-       bool resetStream)
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        public static async Task SerializeToJsonAndWriteAsync(
+            this Stream stream, 
+            object objectToWrite,
+            Encoding encoding,
+            int bufferSize,
+            bool leaveOpen,
+            bool resetStream)
         {
             if (stream == null)
             {
