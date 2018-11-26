@@ -1,6 +1,5 @@
 # Stream Extensions
-A set of helper extension methods for working with streams.  Particularly useful for interaction with an API through HttpClient.  Includes extension methods: 
-
+A set of helper extension methods for working with streams.  Particularly useful for interaction with an API through HttpClient.  Includes 24 extension methods in total (sync & async where it makes sense, generic & non-generic) like SerializeAndWriteToJsonAsync<T>, SerializeAndWriteToJson and ReadAndDeserializeFromJson<T>.
 
 
 # Installation (NuGet)
