@@ -145,7 +145,7 @@ namespace Marvin.StreamExtensions.Test
             var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object); 
 
             var memoryContentStream = new MemoryStream();
-            memoryContentStream.SerializeToJsonAndWrite<Person>(person, new UTF8Encoding(), 1024, true, true);
+            memoryContentStream.SerializeToJsonAndWrite(person, new UTF8Encoding(), 1024, true, true);
 
             using (var request = new HttpRequestMessage(
                 HttpMethod.Post,
@@ -197,7 +197,7 @@ namespace Marvin.StreamExtensions.Test
             var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object);
 
             var memoryContentStream = new MemoryStream();
-            await memoryContentStream.SerializeToJsonAndWriteAsync<Person>(person, new UTF8Encoding(), 1024, true, true);
+            await memoryContentStream.SerializeToJsonAndWriteAsync(person, new UTF8Encoding(), 1024, true, true);
 
             using (var request = new HttpRequestMessage(
                 HttpMethod.Post,
