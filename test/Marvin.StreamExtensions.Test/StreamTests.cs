@@ -1,7 +1,3 @@
-using Moq;
-using Moq.Protected;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -9,6 +5,10 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Moq;
+using Moq.Protected;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Marvin.StreamExtensions.Test
@@ -19,7 +19,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task SerializeInputToStream_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -71,7 +71,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task SerializeInputToStream_Async_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -122,7 +122,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task SerializeTypedInputToStream_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -174,7 +174,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task SerializeTypedInputToStream_Async_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -227,7 +227,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task DeserializeTypedResponseFromStream_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -269,7 +269,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task DeserializeResponseFromStream_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
