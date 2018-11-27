@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Marvin.StreamExtensions.Test
+﻿namespace Marvin.StreamExtensions.Test
 {
     public class Person
     {
@@ -17,14 +13,9 @@ namespace Marvin.StreamExtensions.Test
         // generate hashcode
         public override int GetHashCode()
         {
-            unchecked
-            {
-                var hashCode = 13; 
-                var myStrHashCode =
-                    !string.IsNullOrEmpty(Name) ?
-                        Name.GetHashCode() : 0; 
-                return hashCode;
-            }
+            return !string.IsNullOrEmpty(Name)
+                                    ? Name.GetHashCode()
+                                    : 0;
         }
     }
 }
