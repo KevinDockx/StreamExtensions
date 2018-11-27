@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Kevin Dockx</Authors>
+    <Company>Marvin</Company>
+    <Description>A set of helper extension methods (on Stream) for working with streams. Particularly useful for interaction with an API through HttpClient.</Description>
   </PropertyGroup>
 
   <ItemGroup>
