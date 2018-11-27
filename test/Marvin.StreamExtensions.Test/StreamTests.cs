@@ -56,7 +56,7 @@ namespace Marvin.StreamExtensions.Test
 
                     using (var response = await httpClient.SendAsync(request))
                     {
-                        var stream = await response.Content.ReadAsStreamAsync();
+                        _ = await response.Content.ReadAsStreamAsync();
 
                         response.EnsureSuccessStatusCode();                        
                         personAfterResponse = JsonConvert.DeserializeObject<Person>(await response.Content.ReadAsStringAsync());                         
@@ -108,7 +108,7 @@ namespace Marvin.StreamExtensions.Test
 
                     using (var response = await httpClient.SendAsync(request))
                     {
-                        var stream = await response.Content.ReadAsStreamAsync();
+                        _ = await response.Content.ReadAsStreamAsync();
 
                         response.EnsureSuccessStatusCode();
                         personAfterResponse = JsonConvert.DeserializeObject<Person>(await response.Content.ReadAsStringAsync());
@@ -159,7 +159,7 @@ namespace Marvin.StreamExtensions.Test
 
                     using (var response = await httpClient.SendAsync(request))
                     {
-                        var stream = await response.Content.ReadAsStreamAsync();
+                        _ = await response.Content.ReadAsStreamAsync();
 
                         response.EnsureSuccessStatusCode();
                         personAfterResponse = JsonConvert.DeserializeObject<Person>(
@@ -211,7 +211,7 @@ namespace Marvin.StreamExtensions.Test
 
                     using (var response = await httpClient.SendAsync(request))
                     {
-                        var stream = await response.Content.ReadAsStreamAsync();
+                        _ = await response.Content.ReadAsStreamAsync();
 
                         response.EnsureSuccessStatusCode();
                         personAfterResponse = JsonConvert.DeserializeObject<Person>(
