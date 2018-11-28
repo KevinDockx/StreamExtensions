@@ -1,7 +1,3 @@
-using Moq;
-using Moq.Protected;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -9,6 +5,10 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Moq;
+using Moq.Protected;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace Marvin.StreamExtensions.Test
@@ -19,7 +19,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task SerializeInputToStream_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -56,7 +56,7 @@ namespace Marvin.StreamExtensions.Test
 
                     using (var response = await httpClient.SendAsync(request))
                     {
-                        var stream = await response.Content.ReadAsStreamAsync();
+                        _ = await response.Content.ReadAsStreamAsync();
 
                         response.EnsureSuccessStatusCode();                        
                         personAfterResponse = JsonConvert.DeserializeObject<Person>(await response.Content.ReadAsStringAsync());                         
@@ -71,7 +71,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task SerializeInputToStream_Async_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -108,7 +108,7 @@ namespace Marvin.StreamExtensions.Test
 
                     using (var response = await httpClient.SendAsync(request))
                     {
-                        var stream = await response.Content.ReadAsStreamAsync();
+                        _ = await response.Content.ReadAsStreamAsync();
 
                         response.EnsureSuccessStatusCode();
                         personAfterResponse = JsonConvert.DeserializeObject<Person>(await response.Content.ReadAsStringAsync());
@@ -122,7 +122,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task SerializeTypedInputToStream_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -145,7 +145,7 @@ namespace Marvin.StreamExtensions.Test
             var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object); 
 
             var memoryContentStream = new MemoryStream();
-            memoryContentStream.SerializeToJsonAndWrite<Person>(person, new UTF8Encoding(), 1024, true, true);
+            memoryContentStream.SerializeToJsonAndWrite(person, new UTF8Encoding(), 1024, true, true);
 
             using (var request = new HttpRequestMessage(
                 HttpMethod.Post,
@@ -159,7 +159,7 @@ namespace Marvin.StreamExtensions.Test
 
                     using (var response = await httpClient.SendAsync(request))
                     {
-                        var stream = await response.Content.ReadAsStreamAsync();
+                        _ = await response.Content.ReadAsStreamAsync();
 
                         response.EnsureSuccessStatusCode();
                         personAfterResponse = JsonConvert.DeserializeObject<Person>(
@@ -174,7 +174,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task SerializeTypedInputToStream_Async_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -197,7 +197,7 @@ namespace Marvin.StreamExtensions.Test
             var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object);
 
             var memoryContentStream = new MemoryStream();
-            await memoryContentStream.SerializeToJsonAndWriteAsync<Person>(person, new UTF8Encoding(), 1024, true, true);
+            await memoryContentStream.SerializeToJsonAndWriteAsync(person, new UTF8Encoding(), 1024, true, true);
 
             using (var request = new HttpRequestMessage(
                 HttpMethod.Post,
@@ -211,7 +211,7 @@ namespace Marvin.StreamExtensions.Test
 
                     using (var response = await httpClient.SendAsync(request))
                     {
-                        var stream = await response.Content.ReadAsStreamAsync();
+                        _ = await response.Content.ReadAsStreamAsync();
 
                         response.EnsureSuccessStatusCode();
                         personAfterResponse = JsonConvert.DeserializeObject<Person>(
@@ -227,7 +227,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task DeserializeTypedResponseFromStream_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -269,7 +269,7 @@ namespace Marvin.StreamExtensions.Test
         public async Task DeserializeResponseFromStream_MustMatchInput()
         {
             var person = new Person() { Name = "Lord Flashheart" };
-            var personAfterResponse = new Person();
+            Person personAfterResponse;
 
             // create mocked HttpMessageHandler 
             var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();

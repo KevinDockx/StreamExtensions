@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Marvin.StreamExtensions
 {
@@ -224,7 +224,7 @@ namespace Marvin.StreamExtensions
             this Stream stream, 
             T objectToWrite)
         {
-            SerializeToJsonAndWrite<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Marvin.StreamExtensions
             T objectToWrite,
             Encoding encoding)
         {
-            SerializeToJsonAndWrite<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
         }
 
         /// <summary>
@@ -256,7 +256,7 @@ namespace Marvin.StreamExtensions
             Encoding encoding, 
             int bufferSize)
         {
-            SerializeToJsonAndWrite<T>(stream, objectToWrite, encoding, bufferSize, false, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, false, false);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace Marvin.StreamExtensions
             int bufferSize, 
             bool leaveOpen)
         {
-            SerializeToJsonAndWrite<T>(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
         }
 
         /// <summary>
@@ -290,7 +290,7 @@ namespace Marvin.StreamExtensions
             T objectToWrite, 
             bool resetStream)
         {
-            SerializeToJsonAndWrite<T>(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Marvin.StreamExtensions
             Encoding encoding,
             bool resetStream)
         {
-            SerializeToJsonAndWrite<T>(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
         }
         
         /// <summary>
