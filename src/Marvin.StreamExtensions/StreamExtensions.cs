@@ -354,7 +354,7 @@ namespace Marvin.StreamExtensions
             }
 
             // after writing, set the stream to position 0
-            if (resetStream & stream.CanSeek)
+            if (resetStream && stream.CanSeek)
             {
                 stream.Seek(0, SeekOrigin.Begin);
             }
@@ -495,7 +495,7 @@ namespace Marvin.StreamExtensions
             }
 
             // after writing, set the stream to position 0
-            if (resetStream & stream.CanSeek)
+            if (resetStream && stream.CanSeek)
             {
                 stream.Seek(0, SeekOrigin.Begin);
             }
