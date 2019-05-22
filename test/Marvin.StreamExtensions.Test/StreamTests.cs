@@ -309,7 +309,7 @@ namespace Marvin.StreamExtensions.Test
         }
 
 		[Fact]
-		public async Task SerializeTypedInputToStream_Async_CanceledThrowsTaskCanceledException ()
+		public async Task SerializeTypedInputToStream_Async_CanceledThrowsTaskCanceledException()
 		{
 			var person = new Person();
 			var cancellationTokenSource = new CancellationTokenSource();
