@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Marvin.StreamExtensions
 {
@@ -106,12 +107,10 @@ namespace Marvin.StreamExtensions
             }
 
             using (var streamReader = new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks, bufferSize, leaveOpen))
+            using (var jsonTextReader = new JsonTextReader(streamReader))
             {
-                using (var jsonTextReader = new JsonTextReader(streamReader))
-                {
-                    var jsonStringFromReader = await jsonTextReader.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<T>(jsonStringFromReader);
-                }
+                var jToken = await JToken.LoadAsync(jsonTextReader);
+                return jToken.ToObject<T>();
             }
         }
 
