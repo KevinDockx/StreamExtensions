@@ -308,20 +308,20 @@ namespace Marvin.StreamExtensions.Test
             Assert.Equal(person, personAfterResponse);
         }
 
-		[Fact]
-		public async Task SerializeTypedInputToStream_Async_CanceledThrowsTaskCanceledException()
-		{
-			var person = new Person();
-			var cancellationTokenSource = new CancellationTokenSource();
-			cancellationTokenSource.Cancel();
+        [Fact]
+        public async Task SerializeTypedInputToStream_Async_CanceledThrowsTaskCanceledException()
+        {
+            var person = new Person();
+            var cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.Cancel();
 
-			using (var memoryStream = new MemoryStream())
-			{
-				await Assert.ThrowsAsync<TaskCanceledException>(async () =>
-					// test simple overload to also ensure the more complex overload is passed the token
-					await memoryStream.SerializeToJsonAndWriteAsync(person, cancellationTokenSource.Token)
-				);
-			}
-		}
-	}
+            using (var memoryStream = new MemoryStream())
+            {
+                await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+                    // test simple overload to also ensure the more complex overload is passed the token
+                    await memoryStream.SerializeToJsonAndWriteAsync(person, cancellationTokenSource.Token)
+                );
+            }
+        }
+    }
 }
