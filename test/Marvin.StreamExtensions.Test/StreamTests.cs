@@ -264,7 +264,50 @@ namespace Marvin.StreamExtensions.Test
 
             Assert.Equal(person, personAfterResponse);
         }
-        
+
+        [Fact]
+        public async Task DeserializeTypedResponseFromStream_Async_MustMatchInput()
+        {
+            var person = new Person() { Name = "Lord Flashheart" };
+            Person personAfterResponse;
+
+            // create mocked HttpMessageHandler 
+            var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
+
+            // set up the method
+            bounceInputHttpMessageHandlerMock
+               .Protected()
+               .Setup<Task<HttpResponseMessage>>(
+                  "SendAsync",
+                  ItExpr.IsAny<HttpRequestMessage>(),
+                  ItExpr.IsAny<CancellationToken>()
+               )
+               .ReturnsAsync(new HttpResponseMessage()
+               {
+                   StatusCode = HttpStatusCode.OK,
+                   Content = new StringContent(JsonConvert.SerializeObject(person))
+               });
+
+            // instantiate client
+            var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object);
+
+            // send some json
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://api/test")
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(person))
+            };
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            using (var response = await httpClient.SendAsync(request))
+            {
+                var stream = await response.Content.ReadAsStreamAsync();
+
+                personAfterResponse = await stream.ReadAndDeserializeFromJsonAsync<Person>(new UTF8Encoding(), false, 1024, true);
+            }
+
+            Assert.Equal(person, personAfterResponse);
+        }
+
         [Fact]
         public async Task DeserializeResponseFromStream_MustMatchInput()
         {
@@ -302,6 +345,49 @@ namespace Marvin.StreamExtensions.Test
             {
                 var stream = await response.Content.ReadAsStreamAsync();
                 var output = stream.ReadAndDeserializeFromJson(new UTF8Encoding(), false, 1024, true);
+                // cast - just testing the non-typed ReadAndDeserializeFromJson method
+                personAfterResponse = ((JObject)output).ToObject<Person>();
+            }
+            Assert.Equal(person, personAfterResponse);
+        }
+
+        [Fact]
+        public async Task DeserializeResponseFromStream_Async_MustMatchInput()
+        {
+            var person = new Person() { Name = "Lord Flashheart" };
+            Person personAfterResponse;
+
+            // create mocked HttpMessageHandler 
+            var bounceInputHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
+
+            // set up the method
+            bounceInputHttpMessageHandlerMock
+               .Protected()
+               .Setup<Task<HttpResponseMessage>>(
+                  "SendAsync",
+                  ItExpr.IsAny<HttpRequestMessage>(),
+                  ItExpr.IsAny<CancellationToken>()
+               )
+               .ReturnsAsync(new HttpResponseMessage()
+               {
+                   StatusCode = HttpStatusCode.OK,
+                   Content = new StringContent(JsonConvert.SerializeObject(person))
+               });
+
+            // instantiate client
+            var httpClient = new HttpClient(bounceInputHttpMessageHandlerMock.Object);
+
+            // send some json
+            var request = new HttpRequestMessage(HttpMethod.Post, "http://api/test")
+            {
+                Content = new StringContent(JsonConvert.SerializeObject(person))
+            };
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            using (var response = await httpClient.SendAsync(request))
+            {
+                var stream = await response.Content.ReadAsStreamAsync();
+                var output = await stream.ReadAndDeserializeFromJsonAsync<object>(new UTF8Encoding(), false, 1024, true);
                 // cast - just testing the non-typed ReadAndDeserializeFromJson method
                 personAfterResponse = ((JObject)output).ToObject<Person>();
             }
