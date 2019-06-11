@@ -308,7 +308,6 @@ namespace Marvin.StreamExtensions
         /// <summary>
         /// Serialize (to Json) and write to the stream
         /// </summary>
-        /// <typeparam name="T">The type the object to serialize/write</typeparam>
         /// <param name="stream">The stream</param>
         /// <param name="objectToWrite">The object to write to the stream</param>
         /// <param name="encoding">The encoding to use</param>
@@ -327,7 +326,6 @@ namespace Marvin.StreamExtensions
         /// <summary>
         /// Serialize (to Json) and write to the stream
         /// </summary>
-        /// <typeparam name="T">The type the object to serialize/write</typeparam>
         /// <param name="stream">The stream</param>
         /// <param name="objectToWrite">The object to write to the stream</param>
         /// <param name="encoding">The encoding to use</param>
