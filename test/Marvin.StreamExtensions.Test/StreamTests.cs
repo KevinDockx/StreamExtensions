@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Marvin.StreamExtensions.Test
 {
-    public class StreamTests
+	public class StreamTests
     {
         [Fact]
         public async Task SerializeInputToStream_MustMatchInput()
