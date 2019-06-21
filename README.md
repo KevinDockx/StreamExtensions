@@ -22,8 +22,10 @@ To deserialize the response of an HttpRequest from Json, using streams:
 ```
 using (var response = await httpClient.SendAsync(request))
 {
-    var stream = await response.Content.ReadAsStreamAsync();
-    var person = stream.ReadAndDeserializeFromJson<Person>();
+    using (var stream = await response.Content.ReadAsStreamAsync())
+    {
+        var person = stream.ReadAndDeserializeFromJson<Person>();
+    }
 }
 ```
 
