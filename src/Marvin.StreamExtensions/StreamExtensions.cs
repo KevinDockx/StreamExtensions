@@ -97,21 +97,26 @@ namespace Marvin.StreamExtensions
             bool detectEncodingFromByteOrderMarks,
             int bufferSize,
             bool leaveOpen,
-            JsonSerializerSettings jsonSerializerSettings = default
-            )
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
+
             if (stream == null)
+            {
                 throw new ArgumentNullException(nameof(stream));
+            }
 
             if (!stream.CanRead)
+            {
                 throw new NotSupportedException("Can't read from this stream.");
+            }
 
             if (encoding == null)
+            {
                 throw new ArgumentNullException(nameof(encoding));
+            }
 
             using var streamReader = new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks, bufferSize, leaveOpen);
             using var jsonTextReader = new JsonTextReader(streamReader);
-
             var jsonSerializer = jsonSerializerSettings == default ? JsonSerializer.Create() : JsonSerializer.Create(jsonSerializerSettings);
             return jsonSerializer.Deserialize<T>(jsonTextReader);
         }
@@ -202,13 +207,19 @@ namespace Marvin.StreamExtensions
             JsonSerializerSettings jsonSerializerSettings = default)
         {
             if (stream == null)
+            {
                 throw new ArgumentNullException(nameof(stream));
+            }
 
             if (!stream.CanRead)
+            {
                 throw new NotSupportedException("Can't read from this stream.");
+            }
 
             if (encoding == null)
+            {
                 throw new ArgumentNullException(nameof(encoding));
+            }
 
             using var streamReader = new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks, bufferSize, leaveOpen);
             using var jsonTextReader = new JsonTextReader(streamReader);
@@ -344,14 +355,21 @@ namespace Marvin.StreamExtensions
             bool resetStream,
             JsonSerializerSettings jsonSerializerSettings = default)
         {
+            
             if (stream == null)
+            {
                 throw new ArgumentNullException(nameof(stream));
+            }
 
             if (!stream.CanWrite)
+            {
                 throw new NotSupportedException("Can't write to this stream.");
+            }
 
             if (encoding == null)
+            {
                 throw new ArgumentNullException(nameof(encoding));
+            }
 
             using var streamWriter = new StreamWriter(stream, encoding, bufferSize, leaveOpen);
             using var jsonTextWriter = new JsonTextWriter(streamWriter);
