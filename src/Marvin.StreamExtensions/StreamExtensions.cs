@@ -1,7 +1,7 @@
-﻿using System;
+using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace Marvin.StreamExtensions
 {
@@ -15,12 +15,14 @@ namespace Marvin.StreamExtensions
         /// </summary>
         /// <typeparam name="T">The object type</typeparam>
         /// <param name="stream">The stream</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(
-            this Stream stream)
+            this Stream stream,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
-            return ReadAndDeserializeFromJson<T>(stream, new UTF8Encoding(), true, 
-                Defaults.DefaultBufferSizeOnRead, false);
+            return ReadAndDeserializeFromJson<T>(stream, new UTF8Encoding(), true,
+                Defaults.DefaultBufferSizeOnRead, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -29,13 +31,15 @@ namespace Marvin.StreamExtensions
         /// <typeparam name="T">The object type</typeparam>
         /// <param name="stream">The stream</param>
         /// <param name="encoding">The encoding to use</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(
-            this Stream stream, 
-            Encoding encoding)
+            this Stream stream,
+            Encoding encoding,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
             return ReadAndDeserializeFromJson<T>(stream, encoding, true,
-                Defaults.DefaultBufferSizeOnRead, false);
+                Defaults.DefaultBufferSizeOnRead, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -44,13 +48,15 @@ namespace Marvin.StreamExtensions
         /// <typeparam name="T">The object type</typeparam>
         /// <param name="stream">The stream</param>
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(
             this Stream stream,
-            bool detectEncodingFromByteOrderMarks)
+            bool detectEncodingFromByteOrderMarks,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
             return ReadAndDeserializeFromJson<T>(stream, new UTF8Encoding(),
-                detectEncodingFromByteOrderMarks, Defaults.DefaultBufferSizeOnRead, false);
+                detectEncodingFromByteOrderMarks, Defaults.DefaultBufferSizeOnRead, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -61,15 +67,17 @@ namespace Marvin.StreamExtensions
         /// <param name="encoding">The encoding to use</param>
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
         /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(
             this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
-            int bufferSize)
+            int bufferSize,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
             return ReadAndDeserializeFromJson<T>(stream, encoding,
-                detectEncodingFromByteOrderMarks, bufferSize, false);
+                detectEncodingFromByteOrderMarks, bufferSize, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -81,14 +89,17 @@ namespace Marvin.StreamExtensions
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
         /// <param name="bufferSize">The size of the buffer</param>
         /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamReader object is disposed</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>An object of type T</returns>
         public static T ReadAndDeserializeFromJson<T>(
             this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
             int bufferSize,
-            bool leaveOpen)
+            bool leaveOpen,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
+
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
@@ -104,26 +115,24 @@ namespace Marvin.StreamExtensions
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using (var streamReader = new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks, bufferSize, leaveOpen))
-            {
-                using (var jsonTextReader = new JsonTextReader(streamReader))
-                {
-                    var jsonSerializer = new JsonSerializer();
-                    return jsonSerializer.Deserialize<T>(jsonTextReader);
-                }
-            }
+            using var streamReader = new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks, bufferSize, leaveOpen);
+            using var jsonTextReader = new JsonTextReader(streamReader);
+            var jsonSerializer = jsonSerializerSettings == default ? JsonSerializer.Create() : JsonSerializer.Create(jsonSerializerSettings);
+            return jsonSerializer.Deserialize<T>(jsonTextReader);
         }
 
         /// <summary>
         /// Read from the stream and deserialize (assuming Json content).
         /// </summary>
         /// <param name="stream">The stream</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(
-            this Stream stream)
+            this Stream stream,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
             return ReadAndDeserializeFromJson(stream, new UTF8Encoding(), true,
-                Defaults.DefaultBufferSizeOnRead, false);
+                Defaults.DefaultBufferSizeOnRead, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -131,13 +140,15 @@ namespace Marvin.StreamExtensions
         /// </summary>
         /// <param name="stream">The stream</param>
         /// <param name="encoding">The encoding to use</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(
-            this Stream stream, 
-            Encoding encoding)
+            this Stream stream,
+            Encoding encoding,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
             return ReadAndDeserializeFromJson(stream, encoding, true,
-                Defaults.DefaultBufferSizeOnRead, false);
+                Defaults.DefaultBufferSizeOnRead, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -145,13 +156,15 @@ namespace Marvin.StreamExtensions
         /// </summary>
         /// <param name="stream">The stream</param>
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(
             this Stream stream,
-           bool detectEncodingFromByteOrderMarks)
+            bool detectEncodingFromByteOrderMarks,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
             return ReadAndDeserializeFromJson(stream, new UTF8Encoding(),
-                detectEncodingFromByteOrderMarks, Defaults.DefaultBufferSizeOnRead, false);
+                detectEncodingFromByteOrderMarks, Defaults.DefaultBufferSizeOnRead, false, jsonSerializerSettings);
         }
 
 
@@ -162,15 +175,17 @@ namespace Marvin.StreamExtensions
         /// <param name="encoding">The encoding to use</param>
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
         /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(
             this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
-            int bufferSize)
+            int bufferSize,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
             return ReadAndDeserializeFromJson(stream, encoding,
-                detectEncodingFromByteOrderMarks, bufferSize, false);
+                detectEncodingFromByteOrderMarks, bufferSize, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -181,13 +196,15 @@ namespace Marvin.StreamExtensions
         /// <param name="detectEncodingFromByteOrderMarks">True to detect encoding from byte order marks, false otherwise</param>
         /// <param name="bufferSize">The size of the buffer</param>
         /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamReader object is disposed</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         /// <returns>The deserialized object</returns>
         public static object ReadAndDeserializeFromJson(
             this Stream stream,
             Encoding encoding,
             bool detectEncodingFromByteOrderMarks,
             int bufferSize,
-            bool leaveOpen)
+            bool leaveOpen,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
             if (stream == null)
             {
@@ -204,14 +221,11 @@ namespace Marvin.StreamExtensions
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using (var streamReader = new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks, bufferSize, leaveOpen))
-            {
-                using (var jsonTextReader = new JsonTextReader(streamReader))
-                {
-                    var jsonSerializer = new JsonSerializer();
-                    return jsonSerializer.Deserialize(jsonTextReader);
-                }
-            }
+            using var streamReader = new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks, bufferSize, leaveOpen);
+            using var jsonTextReader = new JsonTextReader(streamReader);
+
+            var jsonSerializer = jsonSerializerSettings == default ? JsonSerializer.Create() : JsonSerializer.Create(jsonSerializerSettings);
+            return jsonSerializer.Deserialize(jsonTextReader);
         }
 
         /// <summary>
@@ -220,26 +234,13 @@ namespace Marvin.StreamExtensions
         /// <typeparam name="T">The type the object to serialize/write</typeparam>
         /// <param name="stream">The stream</param>
         /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         public static void SerializeToJsonAndWrite<T>(
-            this Stream stream, 
-            T objectToWrite)
-        {
-            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
-        }
-
-        /// <summary>
-        /// Serialize (to Json) and write to the stream
-        /// </summary>
-        /// <typeparam name="T">The type the object to serialize/write</typeparam>
-        /// <param name="stream">The stream</param>
-        /// <param name="objectToWrite">The object to write to the stream</param>
-        /// <param name="encoding">The encoding to use</param>
-        public static void SerializeToJsonAndWrite<T>(
-            this Stream stream, 
+            this Stream stream,
             T objectToWrite,
-            Encoding encoding)
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
-            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -249,67 +250,35 @@ namespace Marvin.StreamExtensions
         /// <param name="stream">The stream</param>
         /// <param name="objectToWrite">The object to write to the stream</param>
         /// <param name="encoding">The encoding to use</param>
-        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         public static void SerializeToJsonAndWrite<T>(
-            this Stream stream, 
-            T objectToWrite,
-            Encoding encoding, 
-            int bufferSize)
-        {
-            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, false, false);
-        }
-
-        /// <summary>
-        /// Serialize (to Json) and write to the stream
-        /// </summary>
-        /// <typeparam name="T">The type the object to serialize/write</typeparam>
-        /// <param name="stream">The stream</param>
-        /// <param name="objectToWrite">The object to write to the stream</param>
-        /// <param name="encoding">The encoding to use</param>
-        /// <param name="bufferSize">The size of the buffer</param>
-        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
-        public static void SerializeToJsonAndWrite<T>(
-            this Stream stream, 
-            T objectToWrite,
-            Encoding encoding, 
-            int bufferSize, 
-            bool leaveOpen)
-        {
-            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
-        }
-
-        /// <summary>
-        /// Serialize (to Json) and write to the stream
-        /// </summary>
-        /// <typeparam name="T">The type the object to serialize/write</typeparam>
-        /// <param name="stream">The stream</param>
-        /// <param name="objectToWrite">The object to write to the stream</param>
-        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
-        public static void SerializeToJsonAndWrite<T>(
-            this Stream stream, 
-            T objectToWrite, 
-            bool resetStream)
-        {
-            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
-        }
-
-        /// <summary>
-        /// Serialize (to Json) and write to the stream
-        /// </summary>
-        /// <typeparam name="T">The type the object to serialize/write</typeparam>
-        /// <param name="stream">The stream</param>
-        /// <param name="objectToWrite">The object to write to the stream</param>
-        /// <param name="encoding">The encoding to use</param>
-        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
-        public static void SerializeToJsonAndWrite<T>(
-            this Stream stream, 
+            this Stream stream,
             T objectToWrite,
             Encoding encoding,
-            bool resetStream)
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
-            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false, jsonSerializerSettings);
         }
-        
+
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream,
+            T objectToWrite,
+            Encoding encoding,
+            int bufferSize,
+            JsonSerializerSettings jsonSerializerSettings = default)
+        {
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, false, false, jsonSerializerSettings);
+        }
+
         /// <summary>
         /// Serialize (to Json) and write to the stream
         /// </summary>
@@ -319,15 +288,74 @@ namespace Marvin.StreamExtensions
         /// <param name="encoding">The encoding to use</param>
         /// <param name="bufferSize">The size of the buffer</param>
         /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
-        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         public static void SerializeToJsonAndWrite<T>(
-            this Stream stream, 
+            this Stream stream,
             T objectToWrite,
             Encoding encoding,
             int bufferSize,
             bool leaveOpen,
-            bool resetStream)
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, leaveOpen, false, jsonSerializerSettings);
+        }
+
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream,
+            T objectToWrite,
+            bool resetStream,
+            JsonSerializerSettings jsonSerializerSettings = default)
+        {
+            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream, jsonSerializerSettings);
+        }
+
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream,
+            T objectToWrite,
+            Encoding encoding,
+            bool resetStream, JsonSerializerSettings jsonSerializerSettings = default)
+        {
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream, jsonSerializerSettings);
+        }
+
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <typeparam name="T">The type the object to serialize/write</typeparam>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
+        public static void SerializeToJsonAndWrite<T>(
+            this Stream stream,
+            T objectToWrite,
+            Encoding encoding,
+            int bufferSize,
+            bool leaveOpen,
+            bool resetStream,
+            JsonSerializerSettings jsonSerializerSettings = default)
+        {
+            
             if (stream == null)
             {
                 throw new ArgumentNullException(nameof(stream));
@@ -343,15 +371,12 @@ namespace Marvin.StreamExtensions
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using (var streamWriter = new StreamWriter(stream, encoding, bufferSize, leaveOpen))
-            {
-                using (var jsonTextWriter = new JsonTextWriter(streamWriter))
-                {
-                    var jsonSerializer = new JsonSerializer();
-                    jsonSerializer.Serialize(jsonTextWriter, objectToWrite);
-                    jsonTextWriter.Flush();
-                }
-            }
+            using var streamWriter = new StreamWriter(stream, encoding, bufferSize, leaveOpen);
+            using var jsonTextWriter = new JsonTextWriter(streamWriter);
+
+            var jsonSerializer = jsonSerializerSettings == default ? JsonSerializer.Create() : JsonSerializer.Create(jsonSerializerSettings);
+            jsonSerializer.Serialize(jsonTextWriter, objectToWrite);
+            jsonTextWriter.Flush();
 
             // after writing, set the stream to position 0
             if (resetStream && stream.CanSeek)
@@ -365,11 +390,13 @@ namespace Marvin.StreamExtensions
         /// </summary>
         /// <param name="stream">The stream</param>
         /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         public static void SerializeToJsonAndWrite(
-            this Stream stream, 
-            object objectToWrite)
+            this Stream stream,
+            object objectToWrite,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
-            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -378,28 +405,14 @@ namespace Marvin.StreamExtensions
         /// <param name="stream">The stream</param>
         /// <param name="objectToWrite">The object to write to the stream</param>
         /// <param name="encoding">The encoding to use</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         public static void SerializeToJsonAndWrite(
-            this Stream stream, 
+            this Stream stream,
             object objectToWrite,
-            Encoding encoding)
+            Encoding encoding,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
-            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false);
-        }
-
-        /// <summary>
-        /// Serialize (to Json) and write to the stream
-        /// </summary>
-        /// <param name="stream">The stream</param>
-        /// <param name="objectToWrite">The object to write to the stream</param>
-        /// <param name="encoding">The encoding to use</param>
-        /// <param name="bufferSize">The size of the buffer</param>
-        public static void SerializeToJsonAndWrite(
-            this Stream stream, 
-            object objectToWrite,
-            Encoding encoding, 
-            int bufferSize)
-        {
-            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, false, false);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -409,45 +422,15 @@ namespace Marvin.StreamExtensions
         /// <param name="objectToWrite">The object to write to the stream</param>
         /// <param name="encoding">The encoding to use</param>
         /// <param name="bufferSize">The size of the buffer</param>
-        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         public static void SerializeToJsonAndWrite(
-            this Stream stream, 
+            this Stream stream,
             object objectToWrite,
-            Encoding encoding, 
-            int bufferSize, 
-            bool leaveOpen)
+            Encoding encoding,
+            int bufferSize,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
-            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, leaveOpen, false);
-        }
-
-        /// <summary>
-        /// Serialize (to Json) and write to the stream
-        /// </summary>
-        /// <param name="stream">The stream</param>
-        /// <param name="objectToWrite">The object to write to the stream</param>
-        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
-        public static void SerializeToJsonAndWrite(
-            this Stream stream, 
-            object objectToWrite, 
-            bool resetStream)
-        {
-            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream);
-        }
-
-        /// <summary>
-        /// Serialize (to Json) and write to the stream
-        /// </summary>
-        /// <param name="stream">The stream</param>
-        /// <param name="objectToWrite">The object to write to the stream</param>
-        /// <param name="encoding">The encoding to use</param>
-        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
-        public static void SerializeToJsonAndWrite(
-            this Stream stream, 
-            object objectToWrite,
-            Encoding encoding, 
-            bool resetStream)
-        {
-            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream);
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, false, false, jsonSerializerSettings);
         }
 
         /// <summary>
@@ -458,14 +441,70 @@ namespace Marvin.StreamExtensions
         /// <param name="encoding">The encoding to use</param>
         /// <param name="bufferSize">The size of the buffer</param>
         /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
-        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
         public static void SerializeToJsonAndWrite(
-            this Stream stream, 
+            this Stream stream,
             object objectToWrite,
             Encoding encoding,
             int bufferSize,
             bool leaveOpen,
-            bool resetStream)
+            JsonSerializerSettings jsonSerializerSettings = default)
+        {
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, bufferSize, leaveOpen, false, jsonSerializerSettings);
+        }
+
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream,
+            object objectToWrite,
+            bool resetStream,
+            JsonSerializerSettings jsonSerializerSettings = default)
+        {
+            SerializeToJsonAndWrite(stream, objectToWrite, new UTF8Encoding(), Defaults.DefaultBufferSizeOnWrite, false, resetStream, jsonSerializerSettings);
+        }
+
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream,
+            object objectToWrite,
+            Encoding encoding,
+            bool resetStream,
+            JsonSerializerSettings jsonSerializerSettings = default)
+        {
+            SerializeToJsonAndWrite(stream, objectToWrite, encoding, Defaults.DefaultBufferSizeOnWrite, false, resetStream, jsonSerializerSettings);
+        }
+
+        /// <summary>
+        /// Serialize (to Json) and write to the stream
+        /// </summary>
+        /// <param name="stream">The stream</param>
+        /// <param name="objectToWrite">The object to write to the stream</param>
+        /// <param name="encoding">The encoding to use</param>
+        /// <param name="bufferSize">The size of the buffer</param>
+        /// <param name="leaveOpen">True to leave the stream open after the (internally used) StreamWriter object is disposed</param>
+        /// <param name="resetStream">True to reset the stream to position 0 after writing, false otherwise</param>
+        /// <param name="jsonSerializerSettings">The JsonSerialization setting beeing used for serialization. In default state it will use default settings from Newtonsoft.Json.JsonConvert.DefaultSettings</param>
+        public static void SerializeToJsonAndWrite(
+            this Stream stream,
+            object objectToWrite,
+            Encoding encoding,
+            int bufferSize,
+            bool leaveOpen,
+            bool resetStream,
+            JsonSerializerSettings jsonSerializerSettings = default)
         {
             if (stream == null)
             {
@@ -482,15 +521,13 @@ namespace Marvin.StreamExtensions
                 throw new ArgumentNullException(nameof(encoding));
             }
 
-            using (var streamWriter = new StreamWriter(stream, encoding, bufferSize, leaveOpen))
-            {
-                using (var jsonTextWriter = new JsonTextWriter(streamWriter))
-                {
-                    var jsonSerializer = new JsonSerializer();
-                    jsonSerializer.Serialize(jsonTextWriter, objectToWrite);
-                    jsonTextWriter.Flush();
-                }
-            }
+            using var streamWriter = new StreamWriter(stream, encoding, bufferSize, leaveOpen);
+
+            using var jsonTextWriter = new JsonTextWriter(streamWriter);
+
+            var jsonSerializer = jsonSerializerSettings == null ? JsonSerializer.Create() : JsonSerializer.Create(jsonSerializerSettings);
+            jsonSerializer.Serialize(jsonTextWriter, objectToWrite);
+            jsonTextWriter.Flush();
 
             // after writing, set the stream to position 0
             if (resetStream && stream.CanSeek)
